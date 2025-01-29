@@ -3,43 +3,32 @@ package controller
 import model.Game.{createNewBoard, placeShip}
 import model.{PlacementPhase, ShipsPlaced}
 import view.PlacementPhaseView.{playerInstruction, printCanvas, shipsInstruction, switchPlayer, updatedShips}
-import model.ships._
-
-import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 
 object IntroGame {
-  @tailrec def initialiseGame(currentGameState: PlacementPhase): PlacementPhase = {
-    val allShipsPlaced =
-      currentGameState.shipsPlaced.submarine &&
-      currentGameState.shipsPlaced.destroyer &&
-      currentGameState.shipsPlaced.cruiser &&
-      currentGameState.shipsPlaced.battleship &&
-      currentGameState.shipsPlaced.carrier
+  def initialiseGame: PlacementPhase = {
 
-    if (allShipsPlaced) {
-      switchPlayer()
+    def loop(currentGameState: PlacementPhase): PlacementPhase = {
+      val allShipsPlaced =
+        currentGameState.shipsPlaced.submarine &&
+          currentGameState.shipsPlaced.destroyer &&
+          currentGameState.shipsPlaced.cruiser &&
+          currentGameState.shipsPlaced.battleship &&
+          currentGameState.shipsPlaced.carrier
 
-      currentGameState
-    } else {
-      val input = readLine().split(" ")
+      if (allShipsPlaced) {
+        switchPlayer()
 
-      input.head match {
-        //create new board
-        case "S" | "s" =>
+        currentGameState
+      } else {
+        val input = readLine().split(" ")
 
-          val updatedGameState = createNewBoard
+        try {
+          if (input.length != 4) {
+            throw new IllegalArgumentException("Invalid input, expected format: [A-J] [1-10] [A-J] [1-10].")
+          }
 
-          printCanvas(updatedGameState.canvas)
-
-          shipsInstruction()
-          playerInstruction()
-
-          initialiseGame(updatedGameState)
-
-        //place ship
-        case "P" | "p" =>
-          val Array(_, startX, startY, endX, endY) = input
+          val Array(startX, startY, endX, endY) = input
           val updatedGameState = placeShip(startX, startY, endX, endY, currentGameState)
 
           printCanvas(updatedGameState.canvas)
@@ -48,11 +37,26 @@ object IntroGame {
 
           playerInstruction()
 
-          initialiseGame(updatedGameState)
+          loop(updatedGameState)
 
-        //in all other cases, try again
-        case _ => initialiseGame(currentGameState)
+        } catch {
+          case e: IllegalArgumentException =>
+            println(e.getMessage)
+            loop(currentGameState)
+          case e: Exception =>
+            println(s"An unexpected error occurred: ${e.getMessage}.")
+            loop(currentGameState)
+        }
       }
     }
+
+    val updatedGameState: PlacementPhase = createNewBoard
+
+    printCanvas(updatedGameState.canvas)
+
+    shipsInstruction()
+    playerInstruction()
+
+    loop(updatedGameState)
   }
 }

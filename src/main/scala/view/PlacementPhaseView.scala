@@ -72,13 +72,13 @@ object PlacementPhaseView {
     }
   }
 
-  def playerOneWelcomeMessage(): Unit = println("Player 1, please type 'S' to create your new game board!")
+  def playerOneWelcomeMessage(): Unit = println("Player 1, it is your turn to place your ships according to the list!")
 
-  def playerTwoWelcomeMessage(): Unit = println("Player 2, please type 'S' to create your new game board!")
+  def playerTwoWelcomeMessage(): Unit = println("Player 2, it is your turn to place your ships according to the list!")
 
-  def shipsInstruction(): Unit = println(s"Place your boats:\n ${bold}Carrier -> 5 holes\n Battleship -> 4 holes\n Submarine - 3 holes\n Destroyer -> 2 holes\n Cruiser -> 1 hole${reset}")
+  def shipsInstruction(): Unit = println(s"Place your ships:\n ${bold}Carrier -> 5 holes\n Battleship -> 4 holes\n Submarine - 3 holes\n Destroyer -> 2 holes\n Cruiser -> 1 hole${reset}")
 
-  def playerInstruction(): Unit = println("\nType 'P [A:J] [1:10] [A:J] [1:10]' -> The first coordinate and the last coordinate of each boat.")
+  def playerInstruction(): Unit = println("\nType the first coordinate and the last coordinate of each ship. -> [A:J] [1:10] [A:J] [1:10]:")
 
   def welcomeMessage(): Unit = println(title)
 

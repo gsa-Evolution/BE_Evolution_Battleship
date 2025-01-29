@@ -7,8 +7,8 @@ object AttackPhaseView {
     println("\n\n" + convertCanvasTypeAttack(canvas) + "\n\n")
 
     activePlayer match {
-      case PlayerOne => println("\nPlayer 1, type 'A [A:J] [1:10]' -> The coordinate you want to attack!")
-      case PlayerTwo => println("\nPlayer 2, type 'A [A:J] [1:10]' -> The coordinate you want to attack!")
+      case PlayerOne => println("\nPlayer 1, type '[A:J] [1:10]' -> The coordinate you want to attack:")
+      case PlayerTwo => println("\nPlayer 2, type '[A:J] [1:10]' -> The coordinate you want to attack:")
       case _ => println("error")
     }
   }

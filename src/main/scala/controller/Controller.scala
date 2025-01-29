@@ -2,6 +2,7 @@ package controller
 
 import controller.IntroGame.initialiseGame
 import controller.PlayGame.playGame
+import model.Game.createNewBoard
 import model.{AttackPhase, PlacementPhase, PlayerOne}
 import view.PlacementPhaseView.{playerOneWelcomeMessage, playerTwoWelcomeMessage, welcomeMessage}
 
@@ -10,10 +11,10 @@ object Controller {
     welcomeMessage()
 
     playerOneWelcomeMessage()
-    val playerOneState = initialiseGame(currentGameState = PlacementPhase())
+    val playerOneState = initialiseGame
 
     playerTwoWelcomeMessage()
-    val playerTwoState = initialiseGame(currentGameState = PlacementPhase())
+    val playerTwoState = initialiseGame
 
     playGame(
       AttackPhase(

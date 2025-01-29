@@ -47,7 +47,7 @@ object PlayGame {
       }
   }
 
-  @tailrec def playGame(gameState: AttackPhase): Any = {
+    def playGame(gameState: AttackPhase): Any = {
     val playerOneWins: Boolean = !gameState.playerTwoCanvas.valuesIterator.exists(v => Set(1, 2, 3, 4, 5).contains(v))
     val playerTwoWins: Boolean = !gameState.playerOneCanvas.valuesIterator.exists(v => Set(1, 2, 3, 4, 5).contains(v))
 
@@ -59,23 +59,32 @@ object PlayGame {
 
       val input = readLine().split(" ")
 
-      input.head match {
-        case "A" | "a" =>
-          val Array(_, xCoordinate, yCoordinate) = input
-          val updatedGameState = attack(xCoordinate, yCoordinate, gameState)
+      try {
+        if (input.length != 2) {
+          throw new IllegalArgumentException("Invalid input, expected format: [A-J] [1-10].")
+        }
 
-          println("PLAYER 1 VIEW:")
-          println(f"Last Player 1's play: ${bold}${xCoordinate.toUpperCase} $yCoordinate${reset}")
-          println("____________________________________________")
-          println("Player 2 attacking board:")
-          printCanvasPostAttack(updatedGameState.playerTwoCanvas)
-          println("Player 1 defending board:")
-          printCanvasPostDefense(updatedGameState.playerOneCanvas)
-          println("____________________________________________")
+        val Array(xCoordinate, yCoordinate) = input
+        val updatedGameState = attack(xCoordinate, yCoordinate, gameState)
 
-          playGame(updatedGameState)
+        println("PLAYER 1 VIEW:")
+        println(f"Last Player 1's play: ${bold}${xCoordinate.toUpperCase} $yCoordinate${reset}")
+        println("____________________________________________")
+        println("Player 2 attacking board:")
+        printCanvasPostAttack(updatedGameState.playerTwoCanvas)
+        println("Player 1 defending board:")
+        printCanvasPostDefense(updatedGameState.playerOneCanvas)
+        println("____________________________________________")
 
-        case _ => playGame(gameState)
+        playGame(updatedGameState)
+
+      } catch {
+        case e: IllegalArgumentException =>
+          println(e.getMessage)
+          playGame(gameState)
+        case e: Exception =>
+          println(s"An unexpected error occurred: ${e.getMessage}.")
+          playGame(gameState)
       }
     } else if (gameState.activePlayer == PlayerTwo) {
       checkSunkShips(gameState)
@@ -83,23 +92,32 @@ object PlayGame {
 
       val input = readLine().split(" ")
 
-      input.head match {
-        case "A" | "a" =>
-          val Array(_, xCoordinate, yCoordinate) = input
-          val updatedGameState = attack(xCoordinate, yCoordinate, gameState)
+      try {
+        if (input.length != 2) {
+          throw new IllegalArgumentException("Invalid input, expected format: [A-J] [1-10].")
+        }
 
-          println("PLAYER 2 VIEW:")
-          println(f"Last Player 2's play: ${bold}${xCoordinate.toUpperCase} $yCoordinate${reset}")
-          println("____________________________________________")
-          println("Player 1 attacking board:")
-          printCanvasPostAttack(updatedGameState.playerOneCanvas)
-          println("Player 2 defending board:")
-          printCanvasPostDefense(updatedGameState.playerTwoCanvas)
-          println("____________________________________________")
+        val Array(xCoordinate, yCoordinate) = input
+        val updatedGameState = attack(xCoordinate, yCoordinate, gameState)
 
-          playGame(updatedGameState)
+        println("PLAYER 2 VIEW:")
+        println(f"Last Player 2's play: ${bold}${xCoordinate.toUpperCase} $yCoordinate${reset}")
+        println("____________________________________________")
+        println("Player 1 attacking board:")
+        printCanvasPostAttack(updatedGameState.playerOneCanvas)
+        println("Player 2 defending board:")
+        printCanvasPostDefense(updatedGameState.playerTwoCanvas)
+        println("____________________________________________")
 
-        case _ => playGame(gameState)
+        playGame(updatedGameState)
+
+      } catch {
+        case e: IllegalArgumentException =>
+          println(e.getMessage)
+          playGame(gameState)
+        case e: Exception =>
+          println(s"An unexpected error occurred: ${e.getMessage}.")
+          playGame(gameState)
       }
     } else println("error")
   }
