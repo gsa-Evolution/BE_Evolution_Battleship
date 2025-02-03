@@ -19,6 +19,8 @@ object IntroGame {
       if (allShipsPlaced) {
         switchPlayer()
 
+        // http request here with websockets to send all the positioned ships
+
         currentGameState
       } else {
         val input = readLine().split(" ")

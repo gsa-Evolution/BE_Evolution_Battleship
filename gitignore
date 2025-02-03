@@ -1,0 +1,17 @@
+.idea
+target
+
+sbt.json
+
+# Metals
+.metals
+.bloop
+project/metals.sbt
+metals.sbt
+
+# sonar
+.scannerwork/
+
+slimdown-data.json
+
+.DS_Store
