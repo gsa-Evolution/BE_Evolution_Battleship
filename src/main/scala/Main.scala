@@ -1,4 +1,4 @@
-import controller.Controller
+import local.controller.Controller
 
 object Main extends App {
   Controller.apply
