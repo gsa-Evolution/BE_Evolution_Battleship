@@ -1,4 +1,4 @@
-package server
+/*package server
 
 import cats.syntax.all._
 import scala.annotation.tailrec
@@ -94,4 +94,4 @@ object Main extends App {
   }
 
   //def validateAttack()
-}
+}*/

@@ -1,12 +1,15 @@
 package local.model
 
+import io.circe.Codec
+import io.circe.generic.semiauto.deriveCodec
+
 case class Coordinates(start: Start, end: End)
 
 case class Start(x: Int, y: Int)
 
 case class End(x: Int, y: Int)
 
-object Canvas {
+object Board {
   val newCanvas: Map[(Int, Int), Int] = {
     Map(
       (0, 0) -> 0, (1, 0) -> 0, (2, 0) -> 0, (3, 0) -> 0, (4, 0) -> 0, (5, 0) -> 0, (6, 0) -> 0, (7, 0) -> 0, (8, 0) -> 0, (9, 0) -> 0,
@@ -36,4 +39,8 @@ object Coordinates {
     case "I" | "i" | "9" => 8
     case "J" | "j" | "10" => 9
   }
+
+  implicit val codec: Codec[Coordinates] = deriveCodec
+  implicit val startCodec: Codec[Start] = deriveCodec
+  implicit val endCodec: Codec[End] = deriveCodec
 }

@@ -27,7 +27,10 @@ sealed abstract class Ship(coordinates: Coordinates, gameState: PlacementPhase) 
         fullShipCoordinates <- fullShipCoordinates
       } yield neighbours.contains(fullShipCoordinates)
 
-    if (invalidLocation.contains(true)) false
+    if (invalidLocation.contains(true)) {
+      println("Invalid placement, ships may not be placed in cells adjacent to each other!")
+      false
+    }
     else true
   }
 

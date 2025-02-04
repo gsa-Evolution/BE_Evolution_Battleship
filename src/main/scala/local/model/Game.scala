@@ -1,6 +1,6 @@
 package local.model
 
-import Canvas._
+import Board._
 import Coordinates._
 
 sealed trait ActivePlayer
