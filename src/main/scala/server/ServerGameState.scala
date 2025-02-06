@@ -4,9 +4,9 @@ import cats.implicits._
 import io.circe.{Codec, Decoder, Encoder, KeyDecoder, KeyEncoder}
 import io.circe.generic.extras.Configuration
 import io.circe.generic.extras.semiauto.deriveConfiguredCodec
-import local.model.Coordinates
-import server.ServerGameState.{AwaitingPlayersServerPhase, BattleshipError, IntroPhase, PlacementServerPhase, WinServerPhase}
-import server.ServerWebSockets.{BoardCanvas, PlayerId}
+import local.model.{Coordinates, PlacementPhase, ShipsPlaced}
+import server.ServerGameState.{AttackServerPhase, AwaitingPlayersServerPhase, BattleshipError, PlacementServerPhase, WinServerPhase}
+import server.ServerWebSockets.{BoardCanvas, EmptyGrid, PlayerId}
 
 
 sealed trait ServerGameState {
@@ -15,69 +15,72 @@ sealed trait ServerGameState {
     this match {
       case AwaitingPlayersServerPhase(players) =>
         val newPlayers = players + playerId
+        val newBoard: PlacementPhase = PlacementPhase(
+          canvas = EmptyGrid,
+          shipsPlaced = ShipsPlaced()
+        )
         newPlayers.toList match {
           case firstPlayer :: secondPlayer :: Nil =>
-            IntroPhase(
-              player1 = firstPlayer,
-              player2 = secondPlayer
-              //moveNumber = 0,
-              //grid = ServerWebSockets.EmptyGrid
+            PlacementServerPhase(
+              boards = Map(
+                firstPlayer -> newBoard,
+                secondPlayer -> newBoard
+              )
             ).asRight
 
           case _ => AwaitingPlayersServerPhase(newPlayers).asRight
         }
-
-      case inIntro: IntroPhase =>
-        if (inIntro.player1 == playerId || inIntro.player2 == playerId) inIntro.asRight
-        else BattleshipError.GameNotStarted.asLeft
-
-      case inPlacement: PlacementServerPhase =>
-        if (inPlacement.grid != ServerWebSockets.EmptyGrid) inPlacement.asRight
-        else BattleshipError.GameAlreadyStarted.asLeft
-
-      case _: WinServerPhase => BattleshipError.GameAlreadyEnded.asLeft
+      case _ => BattleshipError.GameAlreadyStarted.asLeft
     }
 
-  /*def makeMove(playerId: PlayerId, coordinate: TicTacToe.Coordinate): Either[TicTacToeError, TicTacToe] =
+  def makePlacement(playerId: PlayerId, coordinate: List[Coordinates]): Either[BattleshipError, ServerGameState] =
     this match {
-      case inProgress @ TicTacToe.InProgress(playerX, playerO, moveNumber, grid) =>
-        val movesNow = if (moveNumber % 2 == 0) playerX else playerO
+      case PlacementServerPhase(boards) =>
+        val allPlaced = boards.exists { case (playerId: PlayerId, placementPhase) => placementPhase.allShipsPlaced }
+        val updatedBoard = PlacementPhase.placeShip(coordinate) // chamar a função que atualiza o board
 
-        for {
-          _ <- Either.cond(test = movesNow == playerId, left = TicTacToeError.NotYourTurn, right = ())
-          _ <- Either.cond(
-            test = grid(coordinate.row.value)(coordinate.column.value) == Empty,
-            left = TicTacToeError.CellAlreadyTaken,
-            right = ()
-          )
-        } yield {
-          val cell    = if (playerId == playerX) TicTacToe.Cell.X else TicTacToe.Cell.O
-          val newGrid = {
-            val updatedRow = grid(coordinate.row.value).updated(coordinate.column.value, cell)
-            grid.updated(coordinate.row.value, updatedRow)
-          }
+        if (allPlaced) AttackServerPhase().asRight//PlacementServerPhase(boards).asRight
+        else PlacementServerPhase(updatedBoard) //BattleshipError.GameAlreadyStarted.asLeft
 
-          val isWin = TicTacToe.WinningCombinations.exists { combination =>
+      //PlacementServerPhase(player1, player2, map)
+      case PlacementServerPhase @ PlacementServerPhase(player1, player2, moveNumber, grid) =>
+        // placement(coord, board): board
+        // playerId = true
+        // se true and true ent retorna o estado attack
+        // se true and false retorna estado phament com updated map
+        val movesNow = if (moveNumber % 2 == 0) player1 else player2
+
+          /*val isWin = TicTacToe.WinningCombinations.exists { combination =>
             combination.forall { coordinate =>
               newGrid(coordinate.row.value)(coordinate.column.value) == cell
             }
-          }
-
-          if (isWin) TicTacToe.Win(winner = playerId, grid = newGrid)
-          else {
-            val newMoveNumber = moveNumber + 1
-            if (newMoveNumber > TicTacToe.MaxMoveNumber) TicTacToe.Tie(newGrid)
-            else
-              inProgress.copy(
-                moveNumber = newMoveNumber,
-                grid = newGrid
-              )
-          }
+          }*/
         }
 
-      case _: TicTacToe.AwaitingPlayersServerPhase => TicTacToeError.GameNotStarted.asLeft
-      case _: TicTacToe.Win                        => TicTacToeError.GameAlreadyEnded.asLeft
-    }*/
+      case _: ServerGameState.AwaitingPlayersServerPhase => BattleshipError.GameNotStarted.asLeft
+      case _: ServerGameState.WinServerPhase             => BattleshipError.GameAlreadyEnded.asLeft
+    }
+
+  def makeAttack(pplayerID, cordenadas) =
+    this match {
+    // ataca
+      // se alguem ganhou, se sim, retorna o WIN
+      // senao, retornar ATACKPHASE updated
+
+
+    if (isWin) ServerGameState.Win(winner = playerId, grid = newGrid)
+    else {
+    val newMoveNumber = moveNumber + 1
+    if (newMoveNumber > ServerGameState.MaxMoveNumber) ServerGameState.Tie(newGrid)
+    else
+    inProgress.copy(
+    moveNumber = newMoveNumber,
+    grid = newGrid
+    )
+    }
+
+      case _: WinServerPhase => BattleshipError.GameAlreadyEnded.asLeft
+    }
 }
 
 object ServerGameState {
@@ -97,18 +100,37 @@ object ServerGameState {
                                                players: Set[PlayerId]
                                              ) extends ServerGameState
 
-  final case class IntroPhase(
-                               player1: PlayerId,
-                               player2: PlayerId
-                             ) extends ServerGameState
+  // criar um PlacementPhase vazio para os dois DONE
+  // player1 -> PlacementPhase1; player2 -> PlacementPhase2 DONE
+
+  // player1 - request placement com todos
+  // verificar o request e atuakizar PlacementPhase1
+
+  // player1 - request placement com todos
+  // nao aceitar se o placement ja esta feito
+
+
+  // player2 - request placement com todos
+  // verificar o request e atuakizar PlacementPhase2
+  // player1 -> PlacementPhase1atu; player2 -> PlacementPhase2atu
+  // Se os dois tiverem atualizados ent muda para atack
+
+
 
   final case class PlacementServerPhase(
-                               player1: PlayerId,
-                               player2: PlayerId,
+                                       boards: Map[PlayerId, PlacementPhase]
+                               // player1: PlayerId,
+                               // player2: PlayerId,
                                //moveNumber: Int,
-                               move: Coordinates, // ?
-                               grid: BoardCanvas
+                               // move: Coordinates, // ?
+                               // grid: BoardCanvas
                              ) extends ServerGameState
+
+  // player - request atack
+  // executa atack -> verificar se ganhou ou nao, se sim mudar para o estado Win e broadcast para todos
+
+  // player - request placement
+  // rejeitar/dar erro
 
   final case class AttackServerPhase(
                               player1: PlayerId,

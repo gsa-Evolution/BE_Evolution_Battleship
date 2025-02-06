@@ -19,6 +19,7 @@ case class PlacementPhase(
                            canvas: Map[(Int, Int), Int] = Map(),
                            shipsPlaced: ShipsPlaced = ShipsPlaced()
                          ) {
+  def allShipsPlaced: Boolean = shipsPlaced.carrier && shipsPlaced.cruiser && shipsPlaced.destroyer && shipsPlaced.submarine && shipsPlaced.battleship
   def placeShip(
                  startX: String,
                  startY: String,

@@ -41,7 +41,9 @@ object ServerWebSockets extends ResourceApp.Forever {
         for {
           updatedState <- c match {
             case ServerCommand.Join(playerId)                 => state.join(playerId)
-            //case ServerCommand.MakeMove(playerId, coordinate) => state.makeMove(playerId, coordinate)
+            case ServerCommand.MakeMove(playerId, coordinate) => state.makePlacement(playerId, coordinate)
+            // placement => state.placement(playerId)
+            // atack =>state.atack(playerId)
           }
         } yield copy(state = updatedState)
 
@@ -107,8 +109,10 @@ object ServerWebSockets extends ResourceApp.Forever {
                                 request         <-
                                   IO.fromEither(jawn.decode[ServerRequest](text.str))
                                 command          = request match {
+                                  // request.Placemnet
+                                  // request.atack
                                   case ServerRequest.MakeMove(coordinate) =>
-                                    ServerCommand.MakeMove(playerId, coordinate)
+                                    ServerCommand.MakePlacement(playerId, coordinate)
                                 }
                                 newStateOrError <- stateRef.modify {
                                   _.handleCommand(command)

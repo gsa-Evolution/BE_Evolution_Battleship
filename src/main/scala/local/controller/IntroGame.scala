@@ -1,6 +1,6 @@
 package local.controller
 
-import local.model.Game.{createNewBoard}
+import local.model.Game.createNewBoard
 import local.view.PlacementPhaseView.{playerInstruction, printCanvas, shipsInstruction, switchPlayer, updatedShips}
 import local.model.{PlacementPhase, ShipsPlaced}
 import scala.io.StdIn.readLine
@@ -9,14 +9,14 @@ object IntroGame {
   def initialiseGame: PlacementPhase = {
 
     def loop(currentGameState: PlacementPhase): PlacementPhase = {
-      val allShipsPlaced =
-        currentGameState.shipsPlaced.submarine &&
-          currentGameState.shipsPlaced.destroyer &&
-          currentGameState.shipsPlaced.cruiser &&
-          currentGameState.shipsPlaced.battleship &&
-          currentGameState.shipsPlaced.carrier
+//      val allShipsPlaced =
+//        currentGameState.shipsPlaced.submarine &&
+//          currentGameState.shipsPlaced.destroyer &&
+//          currentGameState.shipsPlaced.cruiser &&
+//          currentGameState.shipsPlaced.battleship &&
+//          currentGameState.shipsPlaced.carrier
 
-      if (allShipsPlaced) {
+      if (currentGameState.allShipsPlaced) {
         switchPlayer()
 
         // http request here with websockets to send all the positioned ships
