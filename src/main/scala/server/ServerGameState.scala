@@ -1,166 +1,202 @@
 package server
 
 import cats.implicits._
-import io.circe.{Codec, Decoder, Encoder, KeyDecoder, KeyEncoder}
-import io.circe.generic.extras.Configuration
-import io.circe.generic.extras.semiauto.deriveConfiguredCodec
-import local.model.{Coordinates, PlacementPhase, ShipsPlaced}
-import server.ServerGameState.{AttackServerPhase, AwaitingPlayersServerPhase, BattleshipError, PlacementServerPhase, WinServerPhase}
-import server.ServerWebSockets.{BoardCanvas, EmptyGrid, PlayerId}
-
+import server.Cell.Ship
+import server.ServerGameState._
+import server.ServerWebSockets.PlayerId
 
 sealed trait ServerGameState {
+
+  def playerIds: Set[PlayerId]
 
   def join(playerId: PlayerId): Either[BattleshipError, ServerGameState] =
     this match {
       case AwaitingPlayersServerPhase(players) =>
         val newPlayers = players + playerId
-        val newBoard: PlacementPhase = PlacementPhase(
-          canvas = EmptyGrid,
-          shipsPlaced = ShipsPlaced()
-        )
         newPlayers.toList match {
           case firstPlayer :: secondPlayer :: Nil =>
             PlacementServerPhase(
-              boards = Map(
-                firstPlayer -> newBoard,
-                secondPlayer -> newBoard
-              )
+              player1 = PlayerInGame(firstPlayer, Map.empty),
+              player2 = PlayerInGame(secondPlayer, Map.empty)
             ).asRight
 
           case _ => AwaitingPlayersServerPhase(newPlayers).asRight
         }
-      case _ => BattleshipError.GameAlreadyStarted.asLeft
+      case _                                   => BattleshipError.GameAlreadyStarted.asLeft
     }
 
-  def makePlacement(playerId: PlayerId, coordinate: List[Coordinates]): Either[BattleshipError, ServerGameState] =
+  def placeShips(
+      playerId: PlayerId,
+      placements: List[Placement]
+  ): Either[BattleshipError, ServerGameState] =
     this match {
-      case PlacementServerPhase(boards) =>
-        val allPlaced = boards.exists { case (playerId: PlayerId, placementPhase) => placementPhase.allShipsPlaced }
-        val updatedBoard = PlacementPhase.placeShip(coordinate) // chamar a função que atualiza o board
+      case placementPhase @ PlacementServerPhase(player1, player2) =>
+        val playerInGame = placementPhase.player(playerId)
 
-        if (allPlaced) AttackServerPhase().asRight//PlacementServerPhase(boards).asRight
-        else PlacementServerPhase(updatedBoard) //BattleshipError.GameAlreadyStarted.asLeft
+        val actualAmountOfShipsPerType = placements.map { placement =>
+          Map(placement.shipType -> 1)
+        }.combineAll
 
-      //PlacementServerPhase(player1, player2, map)
-      case PlacementServerPhase @ PlacementServerPhase(player1, player2, moveNumber, grid) =>
-        // placement(coord, board): board
-        // playerId = true
-        // se true and true ent retorna o estado attack
-        // se true and false retorna estado phament com updated map
-        val movesNow = if (moveNumber % 2 == 0) player1 else player2
+        for {
+          _     <- Either.cond(
+                     playerInGame.board.isEmpty,
+                     left = BattleshipError.PlacementAlreadyDone,
+                     right = ()
+                   )
+          _     <- Either.cond(
+                     actualAmountOfShipsPerType == ServerGameState.amountOfShipsPerType,
+                     left = BattleshipError.WrongAmountOfShips,
+                     right = ()
+                   )
+          board <- placements
+                     .foldLeftM(Map.empty[Coordinate, Cell]) { (map, placement) =>
+                       val shipCoordinates =
+                         placement.startCoordinate.take(placement.orientation, placement.shipType.length)
 
-          /*val isWin = TicTacToe.WinningCombinations.exists { combination =>
-            combination.forall { coordinate =>
-              newGrid(coordinate.row.value)(coordinate.column.value) == cell
-            }
-          }*/
+                       if (shipCoordinates.size != placement.shipType.length) {
+                         BattleshipError.ShipOutOfBounds.asLeft
+                       } else if (map.keySet.intersect(shipCoordinates).nonEmpty) {
+                         BattleshipError.ShipsAreIntersecting.asLeft
+                       } else {
+                         Right(map ++ shipCoordinates.map(coordinate => coordinate -> Cell.Ship))
+                       }
+                     }
+        } yield {
+
+          val updatedPlayerInGame: PlayerInGame = playerInGame.copy(board = board)
+          val updatedPlacementPhase: PlacementServerPhase = placementPhase.updatePlayer(updatedPlayerInGame)
+
+          if (updatedPlacementPhase.player1.board.nonEmpty && updatedPlacementPhase.player2.board.nonEmpty) {
+            // start the game - implement me :)
+            val moveNumber: Int = 0
+            AttackServerPhase(player1, player2, moveNumber)
+          } else updatedPlacementPhase
         }
 
-      case _: ServerGameState.AwaitingPlayersServerPhase => BattleshipError.GameNotStarted.asLeft
-      case _: ServerGameState.WinServerPhase             => BattleshipError.GameAlreadyEnded.asLeft
+      case _: AwaitingPlayersServerPhase => BattleshipError.GameNotStarted.asLeft
+      case _: AttackServerPhase          => BattleshipError.GameAlreadyStarted.asLeft
+//      case _: WinServerPhase           => BattleshipError.GameAlreadyEnded.asLeft
     }
 
-  def makeAttack(pplayerID, cordenadas) =
+  def attackShips(
+                   playerId: PlayerId, // Who attacks
+                   coordinate: Coordinate // Coordinate on enemy's board where you attack
+                 ): Either[BattleshipError, ServerGameState] = {
     this match {
-    // ataca
-      // se alguem ganhou, se sim, retorna o WIN
-      // senao, retornar ATACKPHASE updated
+      case attackPhase: AttackServerPhase =>
+        // Check if the player is allowed to attack (it's their turn)
+        if (attackPhase.movesNow.playerId != playerId) {
+          return BattleshipError.NotYourTurn.asLeft
+        }
 
+        val opponent = attackPhase.opponentOf(playerId)
 
-    if (isWin) ServerGameState.Win(winner = playerId, grid = newGrid)
-    else {
-    val newMoveNumber = moveNumber + 1
-    if (newMoveNumber > ServerGameState.MaxMoveNumber) ServerGameState.Tie(newGrid)
-    else
-    inProgress.copy(
-    moveNumber = newMoveNumber,
-    grid = newGrid
-    )
+        opponent.board.get(coordinate) match {
+          case Some(Ship) =>
+            val updatedOpponent = opponent.copy(board = opponent.board.updated(coordinate, Cell.HitShip))
+
+            val opponentShipsLeft = updatedOpponent.board.count { case (_, cell) => cell == Cell.Ship }
+
+            if (opponentShipsLeft == 0) {
+              // Goes to the win phase state and when a player wants to send a new message it displays an error saying there is already an winner
+            }
+
+            val updatedAttackPhase = attackPhase.copy(
+              moveNumber = attackPhase.moveNumber + 1,
+            )
+
+            updatedAttackPhase.updatePlayer(updatedOpponent).asRight
+
+          case Some(Cell.HitShip | Cell.Miss) =>
+            BattleshipError.CellAlreadyTaken.asLeft
+
+          case None =>
+            val updatedOpponent: PlayerInGame = opponent.copy(board = opponent.board.updated(coordinate, Cell.Miss))
+
+            val updatedAttackPhase = attackPhase.copy(
+              moveNumber = attackPhase.moveNumber + 1,
+            )
+
+            updatedAttackPhase.updatePlayer(updatedOpponent).asRight
+        }
+
+      case _ => BattleshipError.GameNotStarted.asLeft
     }
-
-      case _: WinServerPhase => BattleshipError.GameAlreadyEnded.asLeft
-    }
+  }
 }
 
 object ServerGameState {
 
+  val amountOfShipsPerType: Map[ShipType, Int] = Map(ShipType.Cruiser -> 1, ShipType.Destroyer -> 1, ShipType.Submarine -> 1, ShipType.Battleship -> 1, ShipType.Carrier -> 1)
+
   sealed trait BattleshipError
 
   object BattleshipError {
-    case object GameAlreadyStarted extends BattleshipError
-    case object GameAlreadyEnded   extends BattleshipError
-    case object GameNotStarted     extends BattleshipError
-    case object NotYourTurn        extends BattleshipError
-    case object CellAlreadyTaken   extends BattleshipError
-    case object CellAdjacent       extends BattleshipError
+    case object GameAlreadyStarted   extends BattleshipError
+    case object GameAlreadyEnded     extends BattleshipError
+    case object GameNotStarted       extends BattleshipError
+    case object PlacementAlreadyDone extends BattleshipError
+
+    case object WrongAmountOfShips   extends BattleshipError
+    case object ShipsAreIntersecting extends BattleshipError
+    case object ShipOutOfBounds      extends BattleshipError
+
+    case object NotYourTurn      extends BattleshipError
+    case object CellAlreadyTaken extends BattleshipError
   }
 
   final case class AwaitingPlayersServerPhase(
-                                               players: Set[PlayerId]
-                                             ) extends ServerGameState
+      players: Set[PlayerId]
+  ) extends ServerGameState {
+    override def playerIds: Set[PlayerId] = players
+  }
 
-  // criar um PlacementPhase vazio para os dois DONE
-  // player1 -> PlacementPhase1; player2 -> PlacementPhase2 DONE
+  sealed trait HasPlayers extends ServerGameState {
+    type Self <: ServerGameState
 
-  // player1 - request placement com todos
-  // verificar o request e atuakizar PlacementPhase1
+    def player1: PlayerInGame
+    def player2: PlayerInGame
 
-  // player1 - request placement com todos
-  // nao aceitar se o placement ja esta feito
+    override final def playerIds: Set[PlayerId] = Set(player1.playerId, player2.playerId)
 
+    final def player(playerId: PlayerId): PlayerInGame =
+      if (player1.playerId == playerId) player1
+      else player2
 
-  // player2 - request placement com todos
-  // verificar o request e atuakizar PlacementPhase2
-  // player1 -> PlacementPhase1atu; player2 -> PlacementPhase2atu
-  // Se os dois tiverem atualizados ent muda para atack
+    final def opponentOf(playerId: PlayerId): PlayerInGame =
+      if (player1.playerId != playerId) player1
+      else player2
 
-
+    def updatePlayer(playerInGame: PlayerInGame): Self
+  }
 
   final case class PlacementServerPhase(
-                                       boards: Map[PlayerId, PlacementPhase]
-                               // player1: PlayerId,
-                               // player2: PlayerId,
-                               //moveNumber: Int,
-                               // move: Coordinates, // ?
-                               // grid: BoardCanvas
-                             ) extends ServerGameState
+      player1: PlayerInGame,
+      player2: PlayerInGame
+  ) extends HasPlayers {
+    type Self = PlacementServerPhase
 
-  // player - request atack
-  // executa atack -> verificar se ganhou ou nao, se sim mudar para o estado Win e broadcast para todos
-
-  // player - request placement
-  // rejeitar/dar erro
+    def updatePlayer(playerInGame: PlayerInGame): Self =
+      if (player1.playerId == playerInGame.playerId)
+        copy(player1 = playerInGame)
+      else
+        copy(player2 = playerInGame)
+  }
 
   final case class AttackServerPhase(
-                              player1: PlayerId,
-                              player2: PlayerId,
-                              //moveNumber: Int,
-                              grid: BoardCanvas
-                            ) extends ServerGameState
+      player1: PlayerInGame,
+      player2: PlayerInGame,
+      moveNumber: Int
+  ) extends HasPlayers {
+    type Self = AttackServerPhase
 
-  final case class WinServerPhase(
-                        winner: PlayerId,
-                        grid: BoardCanvas
-                      ) extends ServerGameState
+    def movesNow: PlayerInGame =
+      if (moveNumber % 2 == 0) player1 else player2
 
-
-
-  implicit val encodeKeyTupleString: KeyEncoder[(Int, Int)] = new KeyEncoder[(Int, Int)] {
-    final def apply(key: (Int, Int)): String = key._1.toString + "," + key._2.toString
-  }
-
-  implicit val decodeKeyTupleString: KeyDecoder[(Int, Int)] = new KeyDecoder[(Int, Int)] {
-    final def apply(key: String): Option[(Int, Int)] = {
-      val pairs = key.split(",")
-      Some((pairs(0).toInt, pairs(1).toInt))
-    }
-  }
-
-  implicit val boardCanvasEncoder: Encoder[BoardCanvas] = Encoder.encodeMap[(Int, Int), Int]
-  implicit val boardCanvasDecoder: Decoder[BoardCanvas] = Decoder.decodeMap[(Int, Int), Int]
-  implicit val codec: Codec[ServerGameState] = {
-    implicit val configuration: Configuration = Configuration.default.withDiscriminator("type")
-    deriveConfiguredCodec
+    def updatePlayer(playerInGame: PlayerInGame): AttackServerPhase =
+      if (player1.playerId == playerInGame.playerId)
+        copy(player1 = playerInGame)
+      else
+        copy(player2 = playerInGame)
   }
 }

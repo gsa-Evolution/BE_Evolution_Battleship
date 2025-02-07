@@ -9,9 +9,14 @@ import local.model.Coordinates
 sealed trait ServerRequest
 
 object ServerRequest {
-  final case class MakeMove(coordinate: Coordinates) extends ServerRequest
-  object MakeMove {
-    implicit val decoder: Decoder[MakeMove] = deriveDecoder
+  final case class PlaceShips(placements: List[Placement]) extends ServerRequest
+  object PlaceShips {
+    implicit val decoder: Decoder[PlaceShips] = deriveDecoder
+  }
+
+  final case class AttackShips(coordinate: Coordinate) extends ServerRequest
+  object AttackShips {
+    implicit val decoder : Decoder[AttackShips] = deriveDecoder
   }
 
   implicit val decoder: Decoder[ServerRequest] = {
