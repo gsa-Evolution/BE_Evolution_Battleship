@@ -75,7 +75,7 @@ sealed trait ServerGameState {
 
       case _: AwaitingPlayersServerPhase => BattleshipError.GameNotStarted.asLeft
       case _: AttackServerPhase          => BattleshipError.GameAlreadyStarted.asLeft
-//      case _: WinServerPhase           => BattleshipError.GameAlreadyEnded.asLeft
+      case _: WinServerPhase             => BattleshipError.GameAlreadyEnded.asLeft
     }
 
   def attackShips(
@@ -99,13 +99,15 @@ sealed trait ServerGameState {
 
             if (opponentShipsLeft == 0) {
               // Goes to the win phase state and when a player wants to send a new message it displays an error saying there is already an winner
+              WinServerPhase(attackPhase.movesNow, opponent).asRight
             }
+            else {
+              val updatedAttackPhase = attackPhase.copy(
+                moveNumber = attackPhase.moveNumber + 1,
+              )
 
-            val updatedAttackPhase = attackPhase.copy(
-              moveNumber = attackPhase.moveNumber + 1,
-            )
-
-            updatedAttackPhase.updatePlayer(updatedOpponent).asRight
+              updatedAttackPhase.updatePlayer(updatedOpponent).asRight
+            }
 
           case Some(Cell.HitShip | Cell.Miss) =>
             BattleshipError.CellAlreadyTaken.asLeft
@@ -120,7 +122,9 @@ sealed trait ServerGameState {
             updatedAttackPhase.updatePlayer(updatedOpponent).asRight
         }
 
-      case _ => BattleshipError.GameNotStarted.asLeft
+      case _: AwaitingPlayersServerPhase => BattleshipError.GameNotStarted.asLeft
+      case _: AttackServerPhase          => BattleshipError.GameAlreadyStarted.asLeft
+      case _: WinServerPhase             => BattleshipError.GameAlreadyEnded.asLeft
     }
   }
 }
@@ -198,5 +202,12 @@ object ServerGameState {
         copy(player1 = playerInGame)
       else
         copy(player2 = playerInGame)
+  }
+
+  final case class WinServerPhase(
+     winner: PlayerInGame,
+     loser: PlayerInGame
+  ) extends ServerGameState {
+    override def playerIds: Set[PlayerId] = Set(winner.playerId, loser.playerId)
   }
 }

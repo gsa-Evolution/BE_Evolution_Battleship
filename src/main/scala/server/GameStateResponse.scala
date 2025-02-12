@@ -26,12 +26,19 @@ object GameStateResponse {
         val yourBoard = player.board
         val opponent = attack.opponentOf(playerId)
         val opponentBoard = opponent.board.filter { case (_, cell) => cell != Cell.Ship }
-        println("PlayerId" + playerId + "attack.moves" + attack.movesNow.playerId)
         val youMoveNow: Boolean = attack.movesNow.playerId == playerId
         AttackShips(
           yourTurn = youMoveNow,
           yourBoard = Option.when(yourBoard.nonEmpty)(yourBoard),
           opponentBoard = Option.when(opponentBoard.nonEmpty)(opponentBoard),
+        )
+
+      case win: ServerGameState.WinServerPhase                 =>
+        val playerWinner = win.winner.playerId
+        val playerLoser = win.loser.playerId
+        Win(
+          winner = playerWinner,
+          loser = playerLoser
         )
     }
 
@@ -62,6 +69,15 @@ object GameStateResponse {
 
   object AttackShips {
     implicit val encoder: Encoder[AttackShips] = deriveEncoder
+  }
+
+  final case class Win (
+    winner: PlayerId,
+    loser: PlayerId
+  ) extends GameStateResponse
+
+  object Win {
+    implicit val encoder: Encoder[Win] = deriveEncoder
   }
 
   implicit val encoder: Encoder[GameStateResponse] = {

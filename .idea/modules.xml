@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/evolution_battleship.iml" filepath="$PROJECT_DIR$/.idea/modules/evolution_battleship.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/evolution_battleship.evolution_battleship-build.iml" filepath="$PROJECT_DIR$/.idea/modules/evolution_battleship.evolution_battleship-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Battleship Evolution.iml" filepath="$PROJECT_DIR$/.idea/modules/Battleship Evolution.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Battleship Evolution.Battleship Evolution-build.iml" filepath="$PROJECT_DIR$/.idea/modules/Battleship Evolution.Battleship Evolution-build.iml" />
     </modules>
   </component>
 </project>
