@@ -1,17 +1,21 @@
 package server
 
+import cats.effect.implicits._
 import cats.syntax.all._
 import cats.effect.std.Queue
-import cats.effect.{Ref, IO, Resource, ResourceApp}
+import cats.effect.{IO, Ref, Resource, ResourceApp}
 import com.comcast.ip4s.IpLiteralSyntax
 import io.circe.syntax.EncoderOps
 import io.circe._
+import io.circe.generic.auto.exportEncoder
 import org.http4s.HttpRoutes
 import org.http4s.dsl.io._
 import org.http4s.ember.server.EmberServerBuilder
+import org.http4s.server.middleware.CORS
 import org.http4s.server.websocket.WebSocketBuilder2
 import org.http4s.websocket.WebSocketFrame
 import server.ServerGameState._
+import org.http4s.circe._
 
 import java.util.UUID
 import scala.concurrent.duration.DurationInt
@@ -20,10 +24,12 @@ object ServerWebSockets extends ResourceApp.Forever {
   type PlayerId    = String
   type BoardCanvas = Map[(Int, Int), Int]
 
+  // Represents a game room with the game state and WebSocket connections of players
   final case class GameRoom(
       state: ServerGameState,
       webSockets: Map[PlayerId, Queue[IO, WebSocketFrame.Text]]
   ) {
+    // Handles received commands and updates the game state
     def handleCommand(c: ServerCommand): (GameRoom, Either[ServerGameState.BattleshipError, ServerGameState]) = {
       val newStateOrError =
         for {
@@ -31,8 +37,6 @@ object ServerWebSockets extends ResourceApp.Forever {
                             case ServerCommand.Join(playerId)                    => state.join(playerId)
                             case ServerCommand.PlaceShips(playerId, placements)  => state.placeShips(playerId, placements)
                             case ServerCommand.AttackShips(playerId, coordinate) => state.attackShips(playerId, coordinate)
-                            // placement => state.placement(playerId) ?
-                            // atack =>state.atack(playerId) ?
                           }
         } yield copy(state = updatedState)
 
@@ -40,24 +44,31 @@ object ServerWebSockets extends ResourceApp.Forever {
     }
   }
 
+  private val corsService = CORS.policy.withAllowOriginHost(_.host.value.matches("localhost")).withAllowCredentials(true)
+
+  // Main method that starts the server
   override def run(args: List[String]): Resource[IO, Unit] = {
     for {
+      // Initializes a map of game rooms
       gameRooms <- Ref.of[IO, Map[UUID, Ref[IO, GameRoom]]](Map.empty).toResource
+      // Configures and starts the WebSocket server
       _         <- EmberServerBuilder
                      .default[IO]
                      .withHost(host"localhost")
                      .withPort(port"8000")
-                     .withHttpWebSocketApp(QueueRoutes(gameRooms, _).orNotFound)
+                     .withHttpWebSocketApp(wsb => corsService(QueueRoutes(gameRooms, wsb).orNotFound))
                      .build
     } yield ()
   }
 
+  // Defines HTTP routes for creating and joining games
   private object QueueRoutes {
     def apply(
         gameRooms: Ref[IO, Map[UUID, Ref[IO, GameRoom]]],
         webSocketBuilder: WebSocketBuilder2[IO]
     ): HttpRoutes[IO] =
       HttpRoutes.of[IO] {
+        // Route to create a new game
         case POST -> Root / "createGame" =>
           for {
             id       <- IO.randomUUID
@@ -71,7 +82,9 @@ object ServerWebSockets extends ResourceApp.Forever {
             response <- Created(id.toString)
           } yield response
 
+        // Route to join an existing game
         case GET -> Root / "join" / roomId / playerId =>
+          // Sends the game state to all players
           def sendStateToAllPlayers(
               newState: ServerGameState,
               stateRef: Ref[IO, GameRoom]
@@ -120,9 +133,8 @@ object ServerWebSockets extends ResourceApp.Forever {
                                                                              WebSocketFrame.Text(decodingError.toString)
                                                                            )
                                                                          case Right(request)      =>
+                                                                           // Match the request type and create the corresponding command
                                                                            val command = request match {
-                                                                             // request.Placemnet ?
-                                                                             // request.atack ?
                                                                              case ServerRequest.PlaceShips(
                                                                                    placements
                                                                                  ) =>
@@ -130,7 +142,6 @@ object ServerWebSockets extends ResourceApp.Forever {
                                                                                  playerId,
                                                                                  placements
                                                                                )
-                                                                             // TODO: implement me :)
                                                                              case ServerRequest.AttackShips(coordinate) =>
                                                                               ServerCommand.AttackShips(
                                                                                 playerId,
@@ -139,11 +150,13 @@ object ServerWebSockets extends ResourceApp.Forever {
                                                                            }
 
                                                                            for {
+                                                                             // Handle the command and update the game state
                                                                              newStateOrError <- stateRef.modify {
                                                                                                   _.handleCommand(
                                                                                                     command
                                                                                                   )
                                                                                                 }
+                                                                             // Send the updated state to all players
                                                                              _               <- newStateOrError match {
                                                                                                   case Left(e)         =>
                                                                                                     queue.offer(
@@ -161,6 +174,7 @@ object ServerWebSockets extends ResourceApp.Forever {
                                                                      case _ => IO.unit
                                                                    }
                                                                  )
+                                                     // Send the updated state to all players after joining
                                                      _        <- sendStateToAllPlayers(newState, stateRef)
                                                    } yield response
                                                }
@@ -168,6 +182,21 @@ object ServerWebSockets extends ResourceApp.Forever {
 
                                case None => NotFound(s"Room $id is not found")
                              }
+          } yield response
+
+        case GET -> Root / "rooms" =>
+          for {
+            roomsList <- gameRooms.get.map(_.toList)
+            gameRoomInfos <- roomsList.traverse { case (id, roomRef) =>
+              roomRef.get.map { room =>
+                val hasEnded = room.state match {
+                  case _: ServerGameState.WinServerPhase => true
+                  case _                                 => false
+                }
+                GameRoomResponse(id, room.webSockets.size, room.state.playerIds.toList, hasEnded)
+              }
+            }
+            response <- Ok(gameRoomInfos.asJson)
           } yield response
       }
   }

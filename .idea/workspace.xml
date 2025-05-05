@@ -5,39 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d48c410b-0954-4789-b62b-dbd3e7d4ddd7" name="Changes" comment="make placements work">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_scala_library_2_12_20_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__scala_sdk_2_12_20.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/evolution_battleship.evolution_battleship-build.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/evolution_battleship.iml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_http4s_http4s_circe_2_13_0_23_25_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_http4s_http4s_jawn_2_13_0_23_25_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_typelevel_jawn_fs2_2_13_2_4_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/server/GameRoomResponse.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/Battleship Evolution.Battleship Evolution-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Battleship Evolution.Battleship Evolution-build.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/Battleship Evolution.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Battleship Evolution.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$3633b012658f109b5879$.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$3633b012658f109b5879.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$3633b012658f109b5879.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$6328da2202f182004b1d$.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$6328da2202f182004b1d.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$6328da2202f182004b1d.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$aa3d3de507335dc7f53d$.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$aa3d3de507335dc7f53d.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$aa3d3de507335dc7f53d.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$c40f6a0d5ced58466da7$.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$c40f6a0d5ced58466da7.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$c40f6a0d5ced58466da7.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$f704598149f6e56d8379$.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$f704598149f6e56d8379.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$f704598149f6e56d8379.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/scala-2.12/sbt-1.0/update/update_cache_2.12/inputs" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/scala-2.12/sbt-1.0/update/update_cache_2.12/inputs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$1fba6e1893ce3e956bb1$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$1fba6e1893ce3e956bb1.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$1fba6e1893ce3e956bb1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$63c48448613706d47c10$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$63c48448613706d47c10.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$63c48448613706d47c10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$800792328e2e0e2c0dcf$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$800792328e2e0e2c0dcf.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$800792328e2e0e2c0dcf.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$85e12e9dd1509ea51d4e$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$85e12e9dd1509ea51d4e.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$85e12e9dd1509ea51d4e.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$b0e51d9ca5abe498f191$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$b0e51d9ca5abe498f191.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$b0e51d9ca5abe498f191.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/project/target/streams/_global/update/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/_global/update/_global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/compile/_global/_global/compileOutputs/previous" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/_global/_global/compileOutputs/previous" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/compile/exportedProducts/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/exportedProducts/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/streams/compile/compileIncremental/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/compileIncremental/_global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/streams/compile/copyResources/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/copyResources/_global/streams/out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/target/streams/compile/incOptions/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/incOptions/_global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/runtime/dependencyClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/runtime/dependencyClasspath/_global/streams/export" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/runtime/exportedProducts/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/runtime/exportedProducts/_global/streams/export" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/runtime/fullClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/runtime/fullClasspath/_global/streams/export" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/runtime/internalDependencyClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/runtime/internalDependencyClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/local/Main.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/local/Main.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/local/controller/IntroGame.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/local/controller/IntroGame.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/server/GameStateResponse.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/server/GameStateResponse.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/server/PlacementServer.scala" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/server/ServerController.scala" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/server/ServerGameState.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/server/ServerGameState.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/server/ServerWebSockets.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/server/ServerWebSockets.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/local/controller/IntroGame$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/local/controller/IntroGame$.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$AttackShips$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$AttackShips$.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$AttackShips$anon$lazy$macro$15$1$$anon$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$AttackShips$anon$lazy$macro$15$1$$anon$3.class" afterDir="false" />
@@ -51,10 +53,16 @@
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$PlaceShips$anon$lazy$macro$11$1$$anon$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$PlaceShips$anon$lazy$macro$11$1$$anon$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$PlaceShips$anon$lazy$macro$11$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$PlaceShips$anon$lazy$macro$11$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$PlaceShips.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$PlaceShips.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$anon$lazy$macro$3$1$$anon$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$Win$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$Win$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$Win$anon$lazy$macro$11$2$$anon$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$Win$anon$lazy$macro$11$2$$anon$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$Win$anon$lazy$macro$11$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$Win$anon$lazy$macro$11$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$Win.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$Win.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$anon$lazy$macro$3$1$$anon$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$anon$lazy$macro$3$1$$anon$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$anon$lazy$macro$3$1$$anon$5.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$anon$lazy$macro$3$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse$anon$lazy$macro$3$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/GameStateResponse.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$AttackPhase$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$AttackPhase.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$AttackServerPhase$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$AttackServerPhase$.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$AttackServerPhase.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$AttackServerPhase.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$AwaitingPlayersServerPhase$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$AwaitingPlayersServerPhase$.class" afterDir="false" />
@@ -72,9 +80,34 @@
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$HasPlayers.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$HasPlayers.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$PlacementServerPhase$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$PlacementServerPhase$.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$PlacementServerPhase.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$PlacementServerPhase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$WinServerPhase$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$WinServerPhase$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$WinServerPhase.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState$WinServerPhase.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerGameState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerRequest$PlaceShips$anon$lazy$macro$7$2$$anon$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerRequest$PlaceShips$anon$lazy$macro$7$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$GameRoom$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$GameRoom$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$GameRoom.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$GameRoom.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$QueueRoutes$$anonfun$apply$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$QueueRoutes$$anonfun$apply$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$QueueRoutes$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$QueueRoutes$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ShipType$Long$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ShipType$Short$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/update/update_cache_2.13/inputs" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/update/update_cache_2.13/inputs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/update/update_cache_2.13/output" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/update/update_cache_2.13/output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/_global/csrLogger/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/_global/csrLogger/_global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/dependencyPositions/_global/streams/update_cache_2.13/input_dsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/dependencyPositions/_global/streams/update_cache_2.13/input_dsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/_global/dependencyPositions/_global/streams/update_cache_2.13/output_dsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/dependencyPositions/_global/streams/update_cache_2.13/output_dsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/update/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/update/_global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/update_cache_2.13/inputs" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/update_cache_2.13/inputs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/update_cache_2.13/output" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/update_cache_2.13/output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/compile/externalDependencyClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/externalDependencyClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/compile/managedClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/managedClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/runtime/externalDependencyClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/runtime/externalDependencyClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/runtime/managedClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/runtime/managedClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/externalDependencyClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/test/externalDependencyClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/managedClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/test/managedClasspath/_global/streams/export" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,17 +163,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.ServerWebSockets.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.ServerWebSockets.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_directory_selection": "/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship/src/main/scala",
+    "last_opened_file_path": "/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/scala/server" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.ServerWebSockets">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="local.Main" />
+      <module name="Battleship Evolution" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="local.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerWebSockets" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="server.ServerWebSockets" />
+      <module name="Battleship Evolution" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="temp_9287" />
       <method v="2">
@@ -152,6 +219,12 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ServerWebSockets" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ScalaProjectSettings">
     <option name="migrateConfigurationsNotificationShown" value="true" />

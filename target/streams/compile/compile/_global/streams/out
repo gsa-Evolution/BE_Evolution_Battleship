@@ -1,0 +1,11 @@
+[0m[[0m[33mwarn[0m] [0m[0m/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship/src/main/scala/local/model/Ship.scala:100:5: match may not be exhaustive.[0m
+[0m[[0m[33mwarn[0m] [0m[0m    coordinates match {[0m
+[0m[[0m[33mwarn[0m] [0m[0m    ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship/src/main/scala/server/ServerGameState.scala:130:80: unreachable code[0m
+[0m[[0m[33mwarn[0m] [0m[0m      case _: AttackServerPhase          => BattleshipError.GameAlreadyStarted.asLeft[0m
+[0m[[0m[33mwarn[0m] [0m[0m                                                                               ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship/src/main/scala/server/ServerGameState.scala:90:5: match may not be exhaustive.[0m
+[0m[[0m[33mwarn[0m] [0m[0mIt would fail on the following input: PlacementServerPhase(_, _)[0m
+[0m[[0m[33mwarn[0m] [0m[0m    this match {[0m
+[0m[[0m[33mwarn[0m] [0m[0m    ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mthree warnings found[0m

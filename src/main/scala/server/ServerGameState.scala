@@ -5,10 +5,13 @@ import server.Cell.Ship
 import server.ServerGameState._
 import server.ServerWebSockets.PlayerId
 
+// Sealed trait representing the different states of the game
 sealed trait ServerGameState {
 
+  // Returns the set of player IDs in the current game state
   def playerIds: Set[PlayerId]
 
+  // Handles a player joining the game
   def join(playerId: PlayerId): Either[BattleshipError, ServerGameState] =
     this match {
       case AwaitingPlayersServerPhase(players) =>
@@ -22,9 +25,15 @@ sealed trait ServerGameState {
 
           case _ => AwaitingPlayersServerPhase(newPlayers).asRight
         }
-      case _                                   => BattleshipError.GameAlreadyStarted.asLeft
+
+      case state: HasPlayers =>
+        if (state.playerIds.contains(playerId)) state.asRight
+        else BattleshipError.GameAlreadyStarted.asLeft
+      case _: WinServerPhase =>
+        BattleshipError.GameAlreadyEnded.asLeft
     }
 
+  // Handles placing ships on the board
   def placeShips(
       playerId: PlayerId,
       placements: List[Placement]
@@ -69,7 +78,8 @@ sealed trait ServerGameState {
           if (updatedPlacementPhase.player1.board.nonEmpty && updatedPlacementPhase.player2.board.nonEmpty) {
             // start the game - implement me :)
             val moveNumber: Int = 0
-            AttackServerPhase(player1, player2, moveNumber)
+
+            AttackServerPhase(updatedPlacementPhase.player1, updatedPlacementPhase.player2, moveNumber)
           } else updatedPlacementPhase
         }
 
@@ -78,6 +88,7 @@ sealed trait ServerGameState {
       case _: WinServerPhase             => BattleshipError.GameAlreadyEnded.asLeft
     }
 
+  // Handles attacking ships on the board
   def attackShips(
                    playerId: PlayerId, // Who attacks
                    coordinate: Coordinate // Coordinate on enemy's board where you attack
@@ -98,7 +109,6 @@ sealed trait ServerGameState {
             val opponentShipsLeft = updatedOpponent.board.count { case (_, cell) => cell == Cell.Ship }
 
             if (opponentShipsLeft == 0) {
-              // Goes to the win phase state and when a player wants to send a new message it displays an error saying there is already an winner
               WinServerPhase(attackPhase.movesNow, opponent).asRight
             }
             else {
@@ -131,8 +141,10 @@ sealed trait ServerGameState {
 
 object ServerGameState {
 
+  // Defines the amount of ships per type
   val amountOfShipsPerType: Map[ShipType, Int] = Map(ShipType.Cruiser -> 1, ShipType.Destroyer -> 1, ShipType.Submarine -> 1, ShipType.Battleship -> 1, ShipType.Carrier -> 1)
 
+  // Sealed trait representing different errors that can occur in the game
   sealed trait BattleshipError
 
   object BattleshipError {
@@ -149,12 +161,14 @@ object ServerGameState {
     case object CellAlreadyTaken extends BattleshipError
   }
 
+  // Case class representing the state when awaiting players
   final case class AwaitingPlayersServerPhase(
       players: Set[PlayerId]
   ) extends ServerGameState {
     override def playerIds: Set[PlayerId] = players
   }
 
+  // Sealed trait representing states that have players
   sealed trait HasPlayers extends ServerGameState {
     type Self <: ServerGameState
 
@@ -174,6 +188,7 @@ object ServerGameState {
     def updatePlayer(playerInGame: PlayerInGame): Self
   }
 
+  // Case class representing the state during ship placement
   final case class PlacementServerPhase(
       player1: PlayerInGame,
       player2: PlayerInGame
@@ -187,6 +202,7 @@ object ServerGameState {
         copy(player2 = playerInGame)
   }
 
+  // Case class representing the state during the attack phase
   final case class AttackServerPhase(
       player1: PlayerInGame,
       player2: PlayerInGame,
@@ -204,6 +220,7 @@ object ServerGameState {
         copy(player2 = playerInGame)
   }
 
+  // Case class representing the state when a player wins
   final case class WinServerPhase(
      winner: PlayerInGame,
      loser: PlayerInGame
