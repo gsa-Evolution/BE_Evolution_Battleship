@@ -8,7 +8,9 @@ import java.util.UUID
 final case class GameRoomResponse(
                                    id: UUID,
                                    players: Int,
-                                   playerIds: List[String],
+                                   playersNames: List[String],
+                                   roomName: String,
+                                   sunkShips: Map[String, List[String]],
                                    hasEnded: Boolean
                                  )
 

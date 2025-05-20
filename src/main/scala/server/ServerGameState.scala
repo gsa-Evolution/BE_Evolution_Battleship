@@ -19,8 +19,8 @@ sealed trait ServerGameState {
         newPlayers.toList match {
           case firstPlayer :: secondPlayer :: Nil =>
             PlacementServerPhase(
-              player1 = PlayerInGame(firstPlayer, Map.empty),
-              player2 = PlayerInGame(secondPlayer, Map.empty)
+              player1 = PlayerInGame(firstPlayer, Map.empty, List.empty),
+              player2 = PlayerInGame(secondPlayer, Map.empty, List.empty)
             ).asRight
 
           case _ => AwaitingPlayersServerPhase(newPlayers).asRight
@@ -72,7 +72,15 @@ sealed trait ServerGameState {
                      }
         } yield {
 
-          val updatedPlayerInGame: PlayerInGame = playerInGame.copy(board = board)
+          val updatedShips: List[Set[Coordinate]] = placements.map { placement =>
+            placement.startCoordinate.take(placement.orientation, placement.shipType.length)
+          }
+
+          val updatedPlayerInGame: PlayerInGame = playerInGame.copy(
+            board = board,
+            ships = updatedShips
+          )
+
           val updatedPlacementPhase: PlacementServerPhase = placementPhase.updatePlayer(updatedPlayerInGame)
 
           if (updatedPlacementPhase.player1.board.nonEmpty && updatedPlacementPhase.player2.board.nonEmpty) {
@@ -103,37 +111,41 @@ sealed trait ServerGameState {
         val opponent = attackPhase.opponentOf(playerId)
 
         opponent.board.get(coordinate) match {
-          case Some(Ship) =>
+          case Some(Cell.Ship) =>
+            // Hit
             val updatedOpponent = opponent.copy(board = opponent.board.updated(coordinate, Cell.HitShip))
 
             val opponentShipsLeft = updatedOpponent.board.count { case (_, cell) => cell == Cell.Ship }
 
             if (opponentShipsLeft == 0) {
-              WinServerPhase(attackPhase.movesNow, opponent).asRight
-            }
-            else {
-              val updatedAttackPhase = attackPhase.copy(
-                moveNumber = attackPhase.moveNumber + 1,
-              )
+              // Game over: attacker wins
+              WinServerPhase(attackPhase.movesNow, updatedOpponent).asRight
+            } else {
+              // Keep the same player's turn on hit (do NOT increment moveNumber)
+              val updatedAttackPhase = attackPhase
+                .updatePlayer(updatedOpponent)
 
-              updatedAttackPhase.updatePlayer(updatedOpponent).asRight
+              updatedAttackPhase.asRight
             }
 
           case Some(Cell.HitShip | Cell.Miss) =>
+            // Already attacked this cell
             BattleshipError.CellAlreadyTaken.asLeft
 
           case None =>
-            val updatedOpponent: PlayerInGame = opponent.copy(board = opponent.board.updated(coordinate, Cell.Miss))
+            // Miss
+            val updatedOpponent = opponent.copy(board = opponent.board.updated(coordinate, Cell.Miss))
 
-            val updatedAttackPhase = attackPhase.copy(
-              moveNumber = attackPhase.moveNumber + 1,
-            )
+            // Increment moveNumber to change turn
+            val updatedAttackPhase = attackPhase
+              .updatePlayer(updatedOpponent)
+              .copy(moveNumber = attackPhase.moveNumber + 1)
 
-            updatedAttackPhase.updatePlayer(updatedOpponent).asRight
+            updatedAttackPhase.asRight
         }
 
       case _: AwaitingPlayersServerPhase => BattleshipError.GameNotStarted.asLeft
-      case _: AttackServerPhase          => BattleshipError.GameAlreadyStarted.asLeft
+      case _: PlacementServerPhase       => BattleshipError.GameAlreadyStarted.asLeft
       case _: WinServerPhase             => BattleshipError.GameAlreadyEnded.asLeft
     }
   }
