@@ -66,7 +66,8 @@ object ServerWebSockets extends ResourceApp.Forever {
     }
   }
 
-  private val corsService = CORS.policy.withAllowOriginHost(_.host.value.matches("localhost")).withAllowCredentials(true)
+  private val allowedOriginEnv = sys.env.getOrElse("ALLOWED_ORIGIN", "localhost")
+  private val corsService = CORS.policy.withAllowOriginHost(origin => origin.host.value == allowedOriginEnv).withAllowCredentials(true)
 
   // Main method that starts the server
   override def run(args: List[String]): Resource[IO, Unit] = {
