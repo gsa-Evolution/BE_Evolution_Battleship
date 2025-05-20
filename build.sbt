@@ -1,4 +1,4 @@
-name := "Battleship Evolution"
+name := "BattleshipEvolution"
 
 version := "0.1"
 

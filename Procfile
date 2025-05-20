@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/Battleship Evolution
+web: target/universal/stage/bin/BattleshipEvolution
