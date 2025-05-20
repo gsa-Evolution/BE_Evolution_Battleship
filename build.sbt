@@ -4,6 +4,10 @@ version := "0.1"
 
 scalaVersion := "2.13.16"
 
+enablePlugins(JavaAppPackaging)
+
+Compile / mainClass := Some("server.ServerWebSockets")
+
 lazy val root = (project in file("."))
   .settings(
     libraryDependencies ++= Seq(
