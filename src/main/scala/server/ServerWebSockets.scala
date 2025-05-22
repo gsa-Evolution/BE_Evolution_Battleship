@@ -77,7 +77,7 @@ object ServerWebSockets extends ResourceApp.Forever {
       // Configures and starts the WebSocket server
       _         <- EmberServerBuilder
         .default[IO]
-        .withHost(host"localhost")
+        .withHost(host"0.0.0.0")
         .withPort(port"8000")
         .withHttpWebSocketApp(wsb => corsService(QueueRoutes(gameRooms, wsb).orNotFound))
         .build
