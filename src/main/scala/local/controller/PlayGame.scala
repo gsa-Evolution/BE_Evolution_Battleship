@@ -13,8 +13,8 @@ object PlayGame {
   def checkSunkShips(gameState: AttackPhase) = {
     if (gameState.activePlayer == PlayerOne) {
       val shipsStatus = List(
-        ("Cruiser", !gameState.playerTwoCanvas.valuesIterator.exists(v => Set(1).contains(v)), 1),
         ("Destroyer", !gameState.playerTwoCanvas.valuesIterator.exists(v => Set(2).contains(v)), 2),
+        ("Cruiser", !gameState.playerTwoCanvas.valuesIterator.exists(v => Set(3).contains(v)), 3),
         ("Submarine", !gameState.playerTwoCanvas.valuesIterator.exists(v => Set(3).contains(v)), 3),
         ("Battleship", !gameState.playerTwoCanvas.valuesIterator.exists(v => Set(4).contains(v)), 4),
         ("Carrier", !gameState.playerTwoCanvas.valuesIterator.exists(v => Set(5).contains(v)), 5)
@@ -29,8 +29,8 @@ object PlayGame {
     }
     else {
       val shipsStatus = List(
-        ("Cruiser", !gameState.playerOneCanvas.valuesIterator.exists(v => Set(1).contains(v)), 1),
         ("Destroyer", !gameState.playerOneCanvas.valuesIterator.exists(v => Set(2).contains(v)), 2),
+        ("Cruiser", !gameState.playerOneCanvas.valuesIterator.exists(v => Set(3).contains(v)), 3),
         ("Submarine", !gameState.playerOneCanvas.valuesIterator.exists(v => Set(3).contains(v)), 3),
         ("Battleship", !gameState.playerOneCanvas.valuesIterator.exists(v => Set(4).contains(v)), 4),
         ("Carrier", !gameState.playerOneCanvas.valuesIterator.exists(v => Set(5).contains(v)), 5)

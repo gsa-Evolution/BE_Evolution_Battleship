@@ -56,8 +56,8 @@ object PlacementPhaseView {
       ("Carrier", carrierStatus, 5),
       ("Battleship", battleshipStatus, 4),
       ("Submarine", submarineStatus, 3),
-      ("Destroyer", destroyerStatus, 2),
-      ("Cruiser", cruiserStatus, 1)
+      ("Cruiser", cruiserStatus, 3),
+      ("Destroyer", destroyerStatus, 2)
     )
 
     shipsStatus.filter(_._2 == true).foreach { case (ship, status, length) =>

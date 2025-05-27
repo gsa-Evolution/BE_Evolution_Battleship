@@ -33,7 +33,7 @@ object ServerWebSockets extends ResourceApp.Forever {
     "Weddell Sea", "Coral Sea", "Philippine Sea", "Java Sea", "Adriatic Sea",
     "Black Sea", "Amazon River", "Nile River", "Yangtze River", "Mississippi River",
     "Ganges River", "Danube River", "Seine River", "Mekong River", "Congo River",
-    "Paraná River", "Volga River", "São Francisco River", "Mackenzie River", "Thames River",
+    "Paraná River", "Volga River", "Mackenzie River", "Thames River",
     "Lena River", "Indus River", "Zambezi River", "Limpopo River", "Colorado River",
     "Euphrates River", "Tigris River", "Murray River", "Oder River", "Hudson Bay",
     "Gulf of Mexico", "Baltic Sea", "Bay of Bengal", "Aegean Sea", "Gulf of Aden",
@@ -41,7 +41,7 @@ object ServerWebSockets extends ResourceApp.Forever {
     "Labrador Sea", "Marmara Sea", "Sicilian Sea", "Lake Victoria", "Lake Baikal",
     "Great Lakes", "Lake Superior", "Lake Michigan", "Lake Huron", "Lake Ontario",
     "Lake Erie", "Lake Titicaca", "Lake Tanganyika", "Rio de la Plata", "Amur River",
-    "Godavari River", "Mekong River", "Sao Francisco River", "Elbe River", "Rhine River",
+    "Godavari River", "Mekong River", "San Francisco River", "Elbe River", "Rhine River",
     "Rio Grande", "Loire River", "Po River", "Volga River"
   )
 

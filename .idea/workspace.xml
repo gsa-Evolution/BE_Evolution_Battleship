@@ -5,49 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d48c410b-0954-4789-b62b-dbd3e7d4ddd7" name="Changes" comment="make placements work">
+      <change beforePath="$PROJECT_DIR$/.idea/modules/Battleship Evolution.Battleship Evolution-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Battleship Evolution.Battleship Evolution-build.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/local/Main.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/local/Main.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/local/controller/IntroGame.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/local/controller/IntroGame.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/local/controller/PlayGame.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/local/controller/PlayGame.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/local/view/PlacementPhaseView.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/local/view/PlacementPhaseView.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/server/ServerWebSockets.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/server/ServerWebSockets.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/job-1/target/7e132360/4f1c395b/battleship-evolution_2.13-0.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/031a0139/673979aa/circe-generic-extras_2.13-0.14.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/0644c68b/505fd1da/http4s-ember-server_2.13-0.23.30.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/0b5799e7/73b93f06/http4s-circe_2.13-0.23.25.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/0d917cae/7fd489df/literally_2.13-1.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/17286353/3ff8a67b/scala-reflect-2.13.16.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/1b847ea5/bcabc394/cats-effect-std_2.13-3.5.7.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/1e3ae4e2/73985d39/slf4j-api-2.0.16.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/205a6d49/8d0826be/http4s-server_2.13-0.23.30.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/207ddad8/57f1051b/circe-jawn_2.13-0.14.10.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/36d38a63/c076fb19/shapeless_2.13-2.3.12.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/3d8b5692/a378561d/ip4s-core_2.13-3.6.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/4027ac07/74072baf/circe-parser_2.13-0.14.10.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/4ac79cb3/eccd2bd7/log4s_2.13-1.10.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/4ed92209/4bf83ef5/cats-kernel_2.13-2.12.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/53bb78c7/55641990/scodec-bits_2.13-1.1.38.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/58cc1986/e081bf96/http4s-dsl_2.13-0.23.30.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/5fff7211/33805ad3/cats-effect_2.13-3.5.7.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/68f456f6/d1796059/hpack-1.0.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/736eca67/5dd7031b/log4cats-core_2.13-2.7.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/74e3d488/cd2466ca/cats-effect-kernel_2.13-3.5.7.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/78fea651/69fe4a0e/logback-core-1.5.16.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/8c740028/3dce90f5/circe-core_2.13-0.14.10.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/9668f25b/7af4e943/http4s-jawn_2.13-0.23.25.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/97a4a253/469dec2e/circe-generic_2.13-0.14.10.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/9c8e0b87/b1b0c2a4/case-insensitive_2.13-1.4.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/9d1a7a25/57c46e15/logback-classic-1.5.16.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/9d7d6f18/7f200b9a/circe-numbers_2.13-0.14.10.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/ac7d512c/fad3f224/scala-library-2.13.16.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/b478257e/0aff343c/http4s-ember-core_2.13-0.23.30.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/b54797b1/0e33ba0e/jawn-parser_2.13-1.6.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/b6024e37/e05260f2/vault_2.13-3.6.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/d1949a97/c1568557/fs2-core_2.13-3.11.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/d3531599/9b4374a1/log4cats-slf4j_2.13-2.7.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/d6b1bd0e/104323ca/cats-parse_2.13-1.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/e485bfa0/b9279a9b/http4s-crypto_2.13-0.2.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/e626ce32/a0eb415b/cats-core_2.13-2.12.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/f2919959/5d32ec95/jawn-fs2_2.13-2.4.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/fa00fdac/3e52713b/fs2-io_2.13-3.11.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_136cee87/target/fee0dbfc/f436bde0/http4s-core_2.13-0.23.30.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/global-logging/sbt-global-log6617819949496487646.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/battleship-evolution_2.13-0.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/battleship-evolution_2.13-0.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/server/ServerWebSockets$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/update_cache_2.13/inputs" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/update_cache_2.13/inputs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/update_cache_2.13/output" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/updateClassifiers/_global/streams/update_cache_2.13/output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/compile/compileIncremental/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/compileIncremental/_global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/compile/incOptions/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/incOptions/_global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/compile/packageBin/_global/streams/inputs" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/packageBin/_global/streams/inputs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/compile/packageBin/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/packageBin/_global/streams/out" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,12 +59,12 @@
     &quot;assignee&quot;: &quot;gsa-Evolution&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/gsa-Evolution/BE_Evolution_Battleship.git",
-    "accountId": "6e10d30f-f86c-4ede-946e-b226e1920557"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/gsa-Evolution/BE_Evolution_Battleship.git&quot;,
+    &quot;accountId&quot;: &quot;6e10d30f-f86c-4ede-946e-b226e1920557&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
   </component>
@@ -103,19 +77,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.ServerWebSockets.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship/src/main/scala",
-    "last_opened_file_path": "/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ServerWebSockets.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship/src/main/scala&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/goncalofsa/Library/CloudStorage/OneDrive-Evolution/Bootcamps/Backend/Final_Project/Evolution_Battleship&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/scala/server" />
