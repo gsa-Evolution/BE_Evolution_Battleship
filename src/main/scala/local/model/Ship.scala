@@ -1,18 +1,19 @@
 package local.model
 
-//import local.model.ships.{Battleship, Carrier, Cruiser, Destroyer, Submarine}
-
+// Tracks which ships have been placed by the player.
 case class ShipsPlaced(
-                         submarine: Boolean = false,
-                         destroyer: Boolean = false,
-                         cruiser: Boolean = false,
-                         battleship: Boolean = false,
-                         carrier: Boolean = false
-                     )
+  submarine: Boolean = false,
+  destroyer: Boolean = false,
+  cruiser: Boolean = false,
+  battleship: Boolean = false,
+  carrier: Boolean = false
+)
 
 sealed abstract class Ship(coordinates: Coordinates, gameState: PlacementPhase) {
+  // Indicates if the maximum number of this ship type has been placed.
   val exceedsMaxNumber = false
 
+  // Checks if the ship's location is valid, not adjacent to other ships.
   protected def validLocation: Boolean = {
     val fullShipCoordinates: Seq[(Int, Int)] =
       for {
@@ -34,6 +35,7 @@ sealed abstract class Ship(coordinates: Coordinates, gameState: PlacementPhase) 
     else true
   }
 
+  // Updates the board for a horizontally placed ship.
   protected def updateHorizontalShip(canvas: Map[(Int, Int), Int]): Map[(Int, Int), Int] = {
     var newCanvas = canvas
     val shipLength = coordinates.end.x - coordinates.start.x + 1
@@ -45,6 +47,7 @@ sealed abstract class Ship(coordinates: Coordinates, gameState: PlacementPhase) 
     newCanvas
   }
 
+  // Updates the board for a vertically placed ship.
   protected def updateVerticalShip(canvas: Map[(Int, Int), Int]): Map[(Int, Int), Int] = {
     var newCanvas = canvas
     val shipLength = coordinates.end.y - coordinates.start.y + 1
@@ -56,6 +59,7 @@ sealed abstract class Ship(coordinates: Coordinates, gameState: PlacementPhase) 
     newCanvas
   }
 
+  // Calculates all neighbouring cells of existing ships, used for placement validation.
   protected def calculateNeighbours(canvas: Map[(Int, Int), Int]): Set[(Int, Int)] = {
     val shipLocations: Set[(Int, Int)] = canvas.filter(_._2 == 1).keySet
 
@@ -74,6 +78,7 @@ sealed abstract class Ship(coordinates: Coordinates, gameState: PlacementPhase) 
     )
   }
 
+  // Updates the game state with the ship's new location.
   def updateLocation(): PlacementPhase = gameState
 }
 
@@ -98,41 +103,15 @@ object Ship {
         coordinates.end.y - coordinates.start.y == 4 && coordinates.end.x - coordinates.start.x == 0
 
     coordinates match {
-      case _ if cruiser => new Cruiser(coordinates, gameState)
-      case _ if destroyer => new Destroyer(coordinates, gameState)
-      case _ if submarine => new Submarine(coordinates, gameState)
+      case _ if cruiser    => new Cruiser(coordinates, gameState)
+      case _ if destroyer  => new Destroyer(coordinates, gameState)
+      case _ if submarine  => new Submarine(coordinates, gameState)
       case _ if battleship => new Battleship(coordinates, gameState)
-      case _ if carrier => new Carrier(coordinates, gameState)
-      //case _ => new Ship(coordinates, gameState)
+      case _ if carrier    => new Carrier(coordinates, gameState)
     }
   }
 
-  class Cruiser(coordinates: Coordinates, gameState: PlacementPhase) extends Ship(coordinates, gameState) {
-    private val isCruiser: Boolean =
-      coordinates.start.x == coordinates.end.x && coordinates.start.y == coordinates.end.y
-
-    override val exceedsMaxNumber: Boolean = gameState.shipsPlaced.cruiser
-
-    override def updateLocation(): PlacementPhase = {
-      coordinates match {
-        case _ if !validLocation | exceedsMaxNumber => gameState
-        case _ if isCruiser =>
-          var newCanvas = gameState.canvas
-
-          newCanvas = newCanvas.transform {
-            case (x, _) if x == (coordinates.start.x, coordinates.start.y) => 1
-            case (_, v) if v == 1 => 1
-            case _ => 0
-          }
-
-          val cruiserPlaced = gameState.shipsPlaced.copy(cruiser = true)
-
-          PlacementPhase(canvas = newCanvas, shipsPlaced = cruiserPlaced)
-        case _ => gameState
-      }
-    }
-  }
-
+  // Represents a Destroyer ship, length 2.
   class Destroyer(coordinates: Coordinates, gameState: PlacementPhase) extends Ship(coordinates, gameState) {
     private val isHorizontalDestroyer: Boolean =
       coordinates.end.x - coordinates.start.x == 1 && coordinates.end.y - coordinates.start.y == 0
@@ -142,6 +121,7 @@ object Ship {
 
     override val exceedsMaxNumber: Boolean = gameState.shipsPlaced.destroyer
 
+    // Updates the board and marks the destroyer as placed.
     override def updateLocation(): PlacementPhase = {
       coordinates match {
         case _ if !validLocation | exceedsMaxNumber => gameState
@@ -160,6 +140,36 @@ object Ship {
     }
   }
 
+  // Represents a Cruiser ship, length 3.
+  class Cruiser(coordinates: Coordinates, gameState: PlacementPhase) extends Ship(coordinates, gameState) {
+    private val isHorizontalCruiser: Boolean =
+      coordinates.end.x - coordinates.start.x == 2 && coordinates.end.y - coordinates.start.y == 0
+
+    private val isVerticalCruiser: Boolean =
+      coordinates.end.y - coordinates.start.y == 2 && coordinates.end.x - coordinates.start.x == 0
+
+    override val exceedsMaxNumber: Boolean = gameState.shipsPlaced.cruiser
+
+    // Updates the board and marks the cruiser as placed.
+    override def updateLocation(): PlacementPhase = {
+      coordinates match {
+        case _ if !validLocation | exceedsMaxNumber => gameState
+        case _ if isHorizontalCruiser =>
+          val newCanvas = updateHorizontalShip(gameState.canvas)
+          val cruiserPlaced = gameState.shipsPlaced.copy(cruiser = true)
+
+          PlacementPhase(canvas = newCanvas, shipsPlaced = cruiserPlaced)
+        case _ if isVerticalCruiser =>
+          val newCanvas = updateVerticalShip(gameState.canvas)
+          val cruiserPlaced = gameState.shipsPlaced.copy(cruiser = true)
+
+          gameState.copy(canvas = newCanvas, shipsPlaced = cruiserPlaced)
+        case _ => gameState
+      }
+    }
+  }
+
+  // Represents a Submarine ship, length 3.
   class Submarine(coordinates: Coordinates, gameState: PlacementPhase) extends Ship(coordinates, gameState) {
     private val isHorizontalSubmarine: Boolean =
       coordinates.end.x - coordinates.start.x == 2 && coordinates.end.y - coordinates.start.y == 0
@@ -169,6 +179,7 @@ object Ship {
 
     override val exceedsMaxNumber: Boolean = gameState.shipsPlaced.submarine
 
+    // Updates the board and marks the submarine as placed.
     override def updateLocation(): PlacementPhase = {
       coordinates match {
         case _ if !validLocation | exceedsMaxNumber => gameState
@@ -187,6 +198,7 @@ object Ship {
     }
   }
 
+  // Represents a Battleship ship, length 4.
   class Battleship(coordinates: Coordinates, gameState: PlacementPhase) extends Ship(coordinates, gameState) {
     private val isHorizontalBattleship: Boolean =
       coordinates.end.x - coordinates.start.x == 3 && coordinates.end.y - coordinates.start.y == 0
@@ -196,6 +208,7 @@ object Ship {
 
     override val exceedsMaxNumber: Boolean = gameState.shipsPlaced.battleship
 
+    // Updates the board and marks the battleship as placed.
     override def updateLocation(): PlacementPhase = {
       coordinates match {
         case _ if !validLocation | exceedsMaxNumber => gameState
@@ -214,6 +227,7 @@ object Ship {
     }
   }
 
+  // Represents a Carrier ship, length 5.
   class Carrier(coordinates: Coordinates, gameState: PlacementPhase) extends Ship(coordinates, gameState) {
     private val isHorizontalCarrier: Boolean =
       coordinates.end.x - coordinates.start.x == 4 && coordinates.end.y - coordinates.start.y == 0
@@ -223,6 +237,7 @@ object Ship {
 
     override val exceedsMaxNumber: Boolean = gameState.shipsPlaced.carrier
 
+    // Updates the board and marks the carrier as placed.
     override def updateLocation(): PlacementPhase = {
       coordinates match {
         case _ if !validLocation | exceedsMaxNumber => gameState

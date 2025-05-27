@@ -3,22 +3,24 @@ package local.view
 import local.model.PlacementPhase
 
 object PlacementPhaseView {
-
   val bold = "\u001b[1m"
   val reset = "\u001b[0m"
 
+  // Prints the current board for ship placement.
   def printCanvas(canvas: Map[(Int, Int), Int]): Unit = println(convertCanvasType(canvas)+ "\n\n")
 
+  // Converts the board state to a string for display, showing ship types for the player.
   def convertCanvasType(canvas: Map[(Int, Int), Int]): String = {
     val topBorder: String = "     " + (for {i <- 'A' to 'J'} yield s"$i").mkString("   ")
 
+    // Converts cell values to display icons.
     def replaceValue(value: Int): String = value match {
-      case 0 => "\u26AA" // Water
-      case 1 => "\u26AB" // Cruiser
-      case 2 => "\u26AB" // Destroyer
-      case 3 => "\u26AB" // Submarine
-      case 4 => "\u26AB" // Battleship
-      case 5 => "\u26AB" // Carrier
+      case 0 => "\u26AA" // Water.
+      case 1 => "\u26AB" // Cruiser.
+      case 2 => "\u26AB" // Destroyer.
+      case 3 => "\u26AB" // Submarine.
+      case 4 => "\u26AB" // Battleship.
+      case 5 => "\u26AB" // Carrier.
       case _ => "?"
     }
 
@@ -35,14 +37,14 @@ object PlacementPhaseView {
     topBorder + middleRows + lastRow
   }
 
+  // Clears the console to switch to the next player.
   def switchPlayer(): Unit = {
-    //Thread.sleep(5000)
     for {_ <- 1 to 15} {
       println("\n")
-      //Thread.sleep(900)
     }
   }
 
+  // Prints the status of each ship, placed or not, after each placement.
   def updatedShips(gameState: PlacementPhase): Unit = {
     val currentShipsPlaced = gameState.shipsPlaced
 
@@ -60,25 +62,32 @@ object PlacementPhaseView {
       ("Destroyer", destroyerStatus, 2)
     )
 
+    // Prints status for ships that have been placed.
     shipsStatus.filter(_._2 == true).foreach { case (ship, status, length) =>
       val holeText = if (length == 1) "hole" else "holes"
       println(s"${bold}$ship${reset} was placed successfully! -> ${bold}$length $holeText${reset} \u2705")
     }
 
+    // Prints status for ships that have not been placed yet.
     shipsStatus.filter(_._2 == false).foreach { case (ship, status, length) =>
       val holeText = if (length == 1) "hole" else "holes"
       println(s"${bold}$ship${reset} is not placed yet. -> ${bold}$length $holeText${reset} \u274c")
     }
   }
 
+  // Prints welcome message for Player 1.
   def playerOneWelcomeMessage(): Unit = println("Player 1, it is your turn to place your ships according to the list!")
 
+  // Prints welcome message for Player 2.
   def playerTwoWelcomeMessage(): Unit = println("Player 2, it is your turn to place your ships according to the list!")
 
+  // Prints instructions for placing ships.
   def shipsInstruction(): Unit = println(s"Place your ships:\n ${bold}Carrier -> 5 holes\n Battleship -> 4 holes\n Submarine - 3 holes\n Destroyer -> 2 holes\n Cruiser -> 1 hole${reset}")
 
+  // Prints instructions for entering ship coordinates.
   def playerInstruction(): Unit = println("\nType the first coordinate and the last coordinate of each ship. -> [A:J] [1:10] [A:J] [1:10]:")
 
+  // Prints the welcome message.
   def welcomeMessage(): Unit = println(title)
 
   private val title: String =

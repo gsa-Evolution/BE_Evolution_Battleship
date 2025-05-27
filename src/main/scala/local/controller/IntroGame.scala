@@ -45,11 +45,9 @@ object IntroGame {
           loop(updatedGameState)
 
         } catch {
-          // Handles invalid input.
           case e: IllegalArgumentException =>
             println(e.getMessage)
             loop(currentGameState)
-          // Handles unexpected errors.
           case e: Exception =>
             println(s"An unexpected error occurred: ${e.getMessage}.")
             loop(currentGameState)
